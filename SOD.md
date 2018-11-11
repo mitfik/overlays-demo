@@ -53,13 +53,39 @@ attribute. Schema element's are included in schema. The idea is behind schema el
 Example of one element:
 
     {
-      did: "did:sov:el091234",
-      name: "Full name",
-      description: "User full name",
+      did: "did:schel:9667",
+      name: "First name",
+      description: "User first name",
+      version: "1.0",
+    }
+
+    {
+      did: "did:schel:9668",
+      name: "Middle name",
+      description: "User middle name",
+      version: "1.0",
+    }
+
+    {
+      did: "did:schel:9669",
+      name: "Last name",
+      description: "User last name",
       version: "1.0",
     }
 
 ## Schema
+
+    {
+      did: "did:schema: 66789",
+      name: "Full Name",
+      description: "Person full name",
+      version: "1.0",
+      attr_names: {
+        "first_name": did:schel:9667,
+        "middle_name": did:schel:9668,
+        "last_name": did:schel:9669,
+      }
+    }
 
     {
       did: "did:sov:1234abcd",
@@ -71,6 +97,7 @@ Example of one element:
         "brthd": "sensitive"
       }
       attr_names: {
+        name: did:schema:666789,
         brthd: "Date",
         ...
       }
