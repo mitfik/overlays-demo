@@ -154,3 +154,8 @@ Flag personally identifiable information (PII) attributes that could unblind the
 * How schema could be tied to specific DID?
 
   DID - identity could point out that he is using those specific schemas for different purpose. So if someone want to communicate with him for example ask for data for issueing him an invoice he could always get the right schema. Could be that done via DDOC and services?
+
+
+# TODO
+
+Since we are operating on DID we can use DDOC to store meta information about object within DDOC. The important part is that DDOC can changed so we need to keep that in mind.
