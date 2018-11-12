@@ -1,5 +1,7 @@
 # Schema Overlays Draft (SOD)
 
+DRAFT - Work in Progress
+
 ## Intro
 
 This document aims to provide proposition of solution for global standardize way of data exchange.
