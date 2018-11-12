@@ -46,6 +46,57 @@ For example:
 * Are you leaving in Poland? -> ( "address" include? 'Poland' )
 * Are you citizen of Poland? -> ( "pesel" is present - PESEL is a national ID of each citizen )
 
+## DID and DDOC
+
+To uniquely identify schema or overlay we would leverage concept of DID according to the [latest spec](https://w3c-ccg.github.io/did-spec/)(v0.11). The idea is to use context withing DID spec.
+
+Same as DID's schemas and overlays should be independent from the network where it could be stored. By following same rules as DID spec.
+
+We could leverage concept of context which is defined in the [spec](https://w3c-ccg.github.io/did-spec/#ex-13-an-example-json-ld-context)
+
+The idea would be to use dedicated context for defining schema related objects to be able to extend the Decentralized Identifiers Data Model in a permissionless and decentralized way.
+
+Example:
+
+    did:sov:schema:12345xcvb # Specific Schema DID
+
+Can resolves to:
+
+    {
+      @context: ["https://schema-and-overlays.io/schema/v1"]
+      "id": did:sov:schema:12345xcvb
+      "proof": {
+        "type": "LinkedDataSignature2015",
+        "created": "2016-02-08T16:02:20Z",
+        "creator": "did:example:8uQhQMGzWxR8vw5P3UWH1ja#keys-1",
+        "signatureValue": "QNB13Y7Q9...1tzjn4w=="
+      }
+      "authentication": [{
+        "type": "RsaSignatureAuthentication2018",
+        "publicKey": "did:example:123456789abcdefghi#keys-1"
+      }
+      name: "Full Name",
+      description: "Person full name",
+      version: "1.0",
+      attr_names: {
+        "first_name": did:schel:9667,
+        "middle_name": did:schel:9668,
+        "last_name": did:schel:9669,
+      }
+    }
+
+NOTICE:
+Since we are using DID spec anything related with [Authorization or Delegation](https://w3c-ccg.github.io/did-spec/#authorization-and-delegation) is build in out of box and is on the DID method side to specify how this is done.
+
+
+Example:
+
+    did:sov:overlay:1234qwer
+
+Can resolves to:
+
+TODO:
+
 
 ## Schema Element
 
