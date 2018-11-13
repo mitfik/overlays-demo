@@ -1,31 +1,32 @@
 require 'json'
 require 'date'
-require 'irbtools'
-require 'colorize'
+require 'awesome_print'
 
 # Attributes flagged according to the Blinding Identity Taxonomy
 # Can be created by community, individuals or trusted entities
 # User can use multiple BIT Overlays and combine them to avoid duplicates
-BIT_OVERLAY = {
+SENSITIVE_OVERLAY = {
 	did: "did:sov:12idksjabcd",
   tyee: "spec/overlay/1.0/bit",
   name: "Sensitive data for private entity",
   attributes: [
-      :ethnic
+      :ethnicGroup
   ]
 }
+
 
 ENTRY_OVERLAY = {
 	did: "did:sov:1234abcd",
   type: "spec/overlay/1.0/entry",
-	name: "Demographics",
+	name: "Demographics Entry",
 	schemaDID: "did:sov:3214abcd",
 	schemaVersion: "1.0",
+  schemaName: "Demographics",
   default_values: {
-    ageu: ["YEAR"],
-	  sex: ["MALE", "FEMALE"],
-	  ethnic: ["HISPANIC OR LATINO", "NOT HISPANIC OR LATINO", "NOT REPORTED", "UNKNOWN"],
-	  racesp: ["CHINESE", "TAIWANESE", "ASIAN INDIAN", "KOREAN", "MALAYSIAN", "VIETNAMESE", "OTHER ASIAN"]
+    ageUnit: ["YEAR"],
+	  gender: ["MALE", "FEMALE"],
+	  ethnicGroup: ["HISPANIC OR LATINO", "NOT HISPANIC OR LATINO", "NOT REPORTED", "UNKNOWN"],
+	  race2Specific: ["CHINESE", "TAIWANESE", "ASIAN INDIAN", "KOREAN", "MALAYSIAN", "VIETNAMESE", "OTHER ASIAN"]
   },
   conditional: {
     # conditional logic can be applied for attributes supported syntax:
@@ -40,8 +41,8 @@ ENTRY_OVERLAY = {
     # <
     # <=
     # >=
-    hidden_attributes: {racesp: ":asian == false" },
-    required_attributes: { brthd: true, sex: true, ageu: ":ageic != nil"}
+    hidden_attributes: {race2Specific: ":asian == false" },
+    required_attributes: { brthd: true, gender: true, ageUnit: ":ageic != nil"}
   }
 }
 
@@ -51,14 +52,14 @@ ENTRY_OVERLAY = {
 SUBSET_OVERLAY = {
 	did: "did:sov:1123414abcd",
   type: "spec/overlay/1.0/subset",
-	name: "Demographics",
+	name: "Demographics - Subset overlay",
 	schemaDID: "did:sov:3214abcd",
 	schemaVersion: "1.0",
   attributes: [
       :brthd,
       :ageic,
       :ageu,
-      :sex
+      :gender
   ]
 
 }
@@ -66,18 +67,19 @@ SUBSET_OVERLAY = {
 # Hints for the attributes and description of the attributes to help user to understand the form
 INFORMATION_OVERLAY = {
   did: "did:sov:58kosf0239",
-  type: "spec/overlay/1.0/information",
-  name: "Demographics",
+  type: "spec/overlay/1.0/informational",
+  name: "Demographics English Informational",
 	schemaDID: "did:sov:3214abcd",
   schemaVersion: "1.0",
+  schemaName: "Demographics",
   language: "en_US",
   attr_informations: {
     brthd: 'Fill Your Date of Birth',
     ageic: 'Fill your Age',
-    sex: 'Choose your Sex',
-    ethnic: 'Choose your Ethnicity',
+    gender: 'Choose your Sex',
+    ethnicGroup: 'Choose your Ethnicity',
     indalk: 'Select if your are American Indian or Alaska Native',
-    racesp: 'If race is Asian, select origin',
+    race2Specific: 'If race is Asian, select origin',
     black: 'Select if you are Black or African American',
     island: 'Select if you are Native Hawaiian or Other Pacific Islander',
     white: 'Select if your are White',
@@ -86,18 +88,18 @@ INFORMATION_OVERLAY = {
 }
 INFORMATION_OVERLAY_PL = {
   did: "did:sov:58kosf0239",
-  type: "spec/overlay/1.0/information",
-  name: "Demographics",
+  type: "spec/overlay/1.0/informational",
+  name: "Demographics - Polish Informational",
 	schemaDID: "did:sov:3214abcd",
   schemaVersion: "1.0",
   language: "en_US",
   attr_informations: {
     brthd: 'Twoja data urodzenia',
     ageic: 'Wprowadź wiek',
-    sex: 'Wybierz płeć',
-    ethnic: 'Wybierz grupe etniczną',
+    gender: 'Wybierz płeć',
+    ethnicGroup: 'Wybierz grupe etniczną',
     indalk: 'Rodowity Amerykanin albo mieszkanie Alaski',
-    racesp: 'Jeżeli jesteś Azjatą wybierz pochodzenie',
+    race2Specific: 'Jeżeli jesteś Azjatą wybierz pochodzenie',
     black: 'Wybierz jeżeli jesteś czarnoskóry',
     island: 'Wybierz jeżeli jesteś Hawajczykiem albo polinezejczykiem',
     white: 'Wybierz jeżeli jesteś biały',
@@ -109,19 +111,20 @@ INFORMATION_OVERLAY_PL = {
 LABEL_OVERLAY = {
   did: "did:sov:59248239",
   type: "spec/overlay/1.0/label",
-  name: "Demographics English Label",
+  name: "Demographics English Labels",
 	schemaDID: "did:sov:3214abcd",
   schemaVersion: "1.0",
+  schemaName: "Demographics",
   language: "en_US",
   attr_labels: {
     brthd: 'Date of Birth',
     ageic: 'Age',
-    ageu: 'Age unit',
-    sex: 'Sex',
-    ethnic: 'Ethnicity',
+    ageUnit: 'Age unit',
+    gender: 'Sex',
+    ethnicGroup: 'Ethnicity',
     indalk: 'American Indian or Alaska Native',
     asian: 'Asian',
-    racesp: 'If race is Asian, specify origin',
+    race2Specific: 'If race is Asian, specify origin',
     black: 'Black or African American',
     island: 'Native Hawaiian or Other Pacific Islander',
     white: 'White',
@@ -138,7 +141,7 @@ LABEL_OVERLAY = {
 LABEL_OVERLAY_PL = {
   did: "did:sov:59sdds248239",
   type: "spec/overlay/1.0/label",
-  name: "Demografik etykiety",
+  name: "Demografia - Polish Labels",
 	schemaDID: "did:sov:3214abcd",
   schemaVersion: "1.0",
   language: "pl_PL",
@@ -146,11 +149,11 @@ LABEL_OVERLAY_PL = {
     brthd: 'Rok urodzenia',
     ageic: 'Wiek',
     ageu: 'Jednotka wieku',
-    sex: 'Płeć',
-    ethnic: 'Grupa etniczna',
+    gender: 'Płeć',
+    ethnicGroup: 'Grupa etniczna',
     indalk: 'rodowity Amerykanin lub Alaski',
     asian: 'Azjata',
-    racesp: 'Jeśli If race is Asian, specify origin',
+    race2Specific: 'Jeśli If race is Asian, specify origin',
     black: 'Czarnoskóry',
     island: 'Hawajczyk lub polinezyjczyk',
     white: 'Biały',
@@ -171,12 +174,12 @@ SCHEMA = {
     attr_names: {
       brthd: Date,
       ageic: Integer,
-      ageu: String,
-      sex: String,
-      ethnic: String,
+      ageUnit: String,
+      gender: String,
+      ethnicGroup: String,
       indalk: TrueClass,
       asian: TrueClass,
-      racesp: String,
+      race2Specific: String,
       black: TrueClass,
       island: TrueClass,
       white: TrueClass,
@@ -195,14 +198,14 @@ SCHEMA = {
 
 
 def show_overlay(overlay)
-  pp JSON.parse(overlay.to_json); nil
+ ap JSON.parse(overlay.to_json)
 end
 
 def show_schema(schema)
-  pp JSON.parse(schema.to_json); nil
+  ap JSON.parse(schema.to_json)
 end
 def overlays
-  pp " ENTRY_OVERLAY LABEL_OVERLAY INFORMATION_OVERLAY SUBSET_OVERLAY BIT_OVERLAY"; nil
+  ap " ENTRY_OVERLAY LABEL_OVERLAY INFORMATION_OVERLAY SUBSET_OVERLAY SENSITIVE_OVERLAY"
 end
 
 class Schema
@@ -247,17 +250,17 @@ class Schema
       else
         puts attr
       end
-    end
+    end; nil
   end
 
   def overlays
     overlays = []
     overlays << @entry_overlay[:name] if @entry_overlay
+    overlays << @subset_overlay[:name] if @subset_overlay
     overlays << @label_overlay[:name] if @label_overlay
     overlays << @information_overlay[:name] if @information_overlay
-    overlays << @subset_overlay[:name] if @subset_overlay
     overlays << @bit_overlay[:name] if @bit_overlay
-    puts overlays
+    ap overlays
   end
 
   def required_attributes
@@ -268,7 +271,7 @@ class Schema
           r << k
         end
       }
-      return r
+      return r & attributes
     else
       []
     end
@@ -285,7 +288,7 @@ class Schema
     @label_overlay = label_overlay
   end
 
-  def apply_bit_overlay(bit_overlay)
+  def apply_sensitive_overlay(bit_overlay)
     @bit_overlay = bit_overlay
   end
 
@@ -320,11 +323,11 @@ class Schema
   def default_values
     dv = {}
     attributes.each do |attr|
-      if @entry_overlay[:default_values][attr] != nil
+      if @entry_overlay and @entry_overlay[:default_values][attr] != nil
         dv[attr] = @entry_overlay[:default_values][attr]
       end
     end
-    pp dv; nil
+    ap dv; nil
   end
 
   def attr_label(attr)
@@ -340,7 +343,7 @@ class Schema
         labels[attr] = ""
       end
     end
-    pp JSON.parse(labels.to_json);nil
+    ap JSON.parse(labels.to_json);nil
   end
 
   def category_label(cat)
@@ -364,7 +367,7 @@ class Schema
         labels[attr] = ""
       end
     end
-    pp JSON.parse(labels.to_json);nil
+    ap JSON.parse(labels.to_json);nil
   end
 
   def category_information(cat)
@@ -397,4 +400,4 @@ end
 #puts LABEL_OVERLAY
 #puts INFORMATION_OVERLAY
 #puts SUBSET_OVERLAY
-#puts BIT_OVERLAY
+#puts SENSITIVE_OVERLAY
