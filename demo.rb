@@ -10,7 +10,7 @@ SENSITIVE_OVERLAY = {
   tyee: "spec/overlay/1.0/bit",
   name: "Sensitive data for private entity",
   attributes: [
-      :ethnicGroup
+      :ageic
   ]
 }
 
