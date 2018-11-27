@@ -1,0 +1,47 @@
+require './demo'
+show_schema(SCHEMA)
+schema = Schema.new(SCHEMA)
+schema.overlays
+schema.bit_attributes
+schema.required_attributes
+schema.default_values
+schema.attribute_labels
+schema.attribute_informations
+
+show_overlay(ENTRY_OVERLAY)
+schema.apply_entry_overlay(ENTRY_OVERLAY)
+schema.overlays
+schema.bit_attributes
+schema.attributes # notice missing hidden field race2Specific
+schema.required_attributes
+schema.default_values
+
+show_overlay(LABEL_OVERLAY)
+schema.apply_label_overlay(LABEL_OVERLAY)
+schema.attribute_labels
+schema.overlays
+show_overlay(LABEL_OVERLAY_PL)
+schema.apply_label_overlay(LABEL_OVERLAY_PL)
+schema.attribute_labels
+schema.overlays
+
+show_overlay(INFORMATION_OVERLAY)
+schema.apply_information_overlay(INFORMATION_OVERLAY)
+schema.overlays
+schema.attribute_informations
+
+show_overlay(INFORMATION_OVERLAY_PL)
+schema.apply_information_overlay(INFORMATION_OVERLAY_PL)
+schema.overlays
+schema.attribute_informations
+
+show_overlay(SUBSET_OVERLAY)
+schema.apply_subset_overlay(SUBSET_OVERLAY)
+schema.overlays
+schema.attributes
+schema.attribute_labels
+schema.attribute_informations
+schema.required_attributes
+
+show_overlay(SENSITIVE_OVERLAY)
+schema.apply_sensitive_overlay(SENSITIVE_OVERLAY)
