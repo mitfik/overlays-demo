@@ -13,9 +13,9 @@ The idea is that schema and overlays would be identify by DID and schema would b
 
 * Verifiable Credentials (Presentation, Presentation Request, Canonicalization Function, Encoding, Schema)
 * Data Vault - unify way to exchange, share and store data.
-* Communication between agents 
+* Communication between agents
 * Data normalization on global scale
-*  (write your own) ... 
+*  (write your own) ...
 
 ## Requirements
 
@@ -28,7 +28,7 @@ The schema can:
 * ...
 
 The schema must:
-* have be identify by DID (or any unique identifier) 
+* have be identify by DID (or any unique identifier)
 * have version
 * have name
 * be valid schema (defined by JSON Schema )
@@ -41,7 +41,7 @@ The Overlay can:
 * be applied by issuer or receiver
 
 The Overlay must:
-* have be identify by DID (or any unique identifier) 
+* have be identify by DID (or any unique identifier)
 * be valid schema (defined by JSON Schema)
 
 
@@ -60,7 +60,7 @@ For example:
 * Are you leaving in Poland? -> ( "address" include? 'Poland' )
 * Are you citizen of Poland? -> ( "pesel" is present - PESEL is a national ID of each citizen )
 
-This could be related with the work which is done in Verifiable Credential WG where ZKP allows you execute such operation. 
+This could be related with the work which is done in Verifiable Credential WG where ZKP allows you execute such operation.
 
 ## DID and DDOC
 
@@ -176,7 +176,7 @@ Example of one element:
     }
 
 ```
-    
+
 CONSENT_SCHEMA = {
     did: "did:schema:27312381238123",
     name: 'Consent schema for clinical trial data',
@@ -207,7 +207,7 @@ CONSENT_SCHEMA = {
  - Subset Overlay
  - Sensitive Overlay
  - Encoding Overlay
- - Formatting Overlay (including units)
+ - Format Overlay (including units)
  - Conditional Overlay
  - Consent Overlay
 
@@ -215,7 +215,7 @@ CONSENT_SCHEMA = {
 
 Include default values for attributes.
 
-For example: 
+For example:
 ```
 ENTRY_OVERLAY = {
   did: "did:sov:1234abcd",
@@ -236,7 +236,7 @@ ENTRY_OVERLAY = {
 
 Define and label categories and add attribute labels to Schema attributes (incl. language translations)
 
-Example: 
+Example:
 
 ```
 LABEL_OVERLAY = {
@@ -275,7 +275,7 @@ LABEL_OVERLAY = {
 
 Add a layer of contextual information to a Schema (incl. procedural and/or legal prose) to better define it's expected use and/or associated terms.
 
-For example: 
+For example:
 
 ```
 INFORMATION_OVERLAY = {
@@ -328,7 +328,7 @@ SUBSET_OVERLAY = {
 
 Flag personally identifiable information (PII) attributes that could unblind the identity of a person, an organization or a thing with reference to the Blinding Identity Taxonomy (BIT). It is applied on the receiver of identity request side. It serves as a extra protection layer for end customer.
 
-For example: 
+For example:
 
 ```
 SENSITIVE_OVERLAY = {
@@ -344,9 +344,9 @@ SENSITIVE_OVERLAY = {
 
 ### Encoding Overlay
 
-Overlay which provides you information about encoding methods used to encrypt/obscure for ZKP operation. This is strongly related with the work of Verifiable Credential WG. More info soon. 
+Overlay which provides you information about encoding methods used to encrypt/obscure for ZKP operation. This is strongly related with the work of Verifiable Credential WG. More info soon.
 
-For example: 
+For example:
 
 ```
 ENCODING_OVERLAY = {
@@ -354,34 +354,34 @@ ENCODING_OVERLAY = {
   tyee: "spec/overlay/1.0/encoding",
   name: "Encoding information for data attributes",
   attributes_encoding: [
-      date: "LinkedDataSignature2015" 
+      date: "LinkedDataSignature2015"
   ]
 }
 ```
 Encoding method could be defined using security vocabulary: https://web-payments.org/vocabs/security
 
-### Formatting Overlay
+### Format Overlay
 
 Overlay which carry information about data formats of the attributes like: Text, Number etc. and the units like: m, km, pounds, EUR etc.
 
-For example: 
+For example:
 
 ```
-FORMATTING_OVERLAY = {
+FORMAT_OVERLAY = {
   did: "did:sov:12iasc212jab5",
-  tyee: "spec/overlay/1.0/formatting",
-  name: "Formatting information for data attributes",
+  tyee: "spec/overlay/1.0/format",
+  name: "Format information for data attributes",
   attributes_encoding: {
       date:  {:format => "ISO8601", unit: "seconds"}
       name: {format: "String"}
-      weight: {format: "Decimal", unit: "kilogram"} 
+      weight: {format: "Decimal", unit: "kilogram"}
   }
 }
 ```
 
 ### Conditional Overlay
 
-Overlay which provides simple logic for presenting the data, like hide fields if are depending on another, required fields and correlation between them. 
+Overlay which provides simple logic for presenting the data, like hide fields if are depending on another, required fields and correlation between them.
 
 For example:
 
@@ -413,9 +413,9 @@ CONDITIONAL_OVERLAY = {
 
 ```
 
-### Consent Overlay 
+### Consent Overlay
 
-Overlay which provides consent information for given agreement. This bit is related with work done in the Consent Receipt WG within Kantara Initiative. 
+Overlay which provides consent information for given agreement. This bit is related with work done in the Consent Receipt WG within Kantara Initiative.
 
 For example:
 ```
@@ -463,4 +463,4 @@ CONSENT_RECIEPT_OVERLAY = {
 
 # TODO
 
-Since we are operating on DID we can use DDOC to store meta information about object within DDOC. The important part is that DDOC can changed so we need to keep that in mind and somehow record specific version of the DDOC to make sure that it won't changed in the future. Since in most network implementation DDOC is stored on the DL this won't be a problem but we need to keep that in mind. 
+Since we are operating on DID we can use DDOC to store meta information about object within DDOC. The important part is that DDOC can changed so we need to keep that in mind and somehow record specific version of the DDOC to make sure that it won't changed in the future. Since in most network implementation DDOC is stored on the DL this won't be a problem but we need to keep that in mind.
